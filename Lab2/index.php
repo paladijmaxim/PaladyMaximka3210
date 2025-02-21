@@ -97,7 +97,8 @@
 
 #7
 
-$a = [1,2,3];
-$b = [ 'a', 'b', 'c'];
-$res = array_merge($a, $b);
-print_r($res);
+// $a = [1,2,3];
+// $b = [ 'a', 'b', 'c'];
+// $res = array_merge($a, $b);
+// print_r($res);
+
