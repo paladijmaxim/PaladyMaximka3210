@@ -44,7 +44,7 @@
 
 // echo $a->method1();
 // echo $b->method1();
-?>
+
 
 
 
@@ -210,3 +210,5 @@
     // foreach($figures as $figure) { 
     //     if($figure instanceof calSq) echo $figure->calSq().'<BR>';
     // }
+
+
