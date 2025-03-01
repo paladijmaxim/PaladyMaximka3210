@@ -1,7 +1,7 @@
 <?php
 
-    namespace src\Models\Users;
-    use src\Models\Articles\Article;
+namespace src\Models\Users;
+
 class User{
     private $name;
 
