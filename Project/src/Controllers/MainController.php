@@ -27,3 +27,4 @@ class MainController{
         $this->view->renderHtml('main/main.php', ['articles'=>$articles]);
     }
 }
+
