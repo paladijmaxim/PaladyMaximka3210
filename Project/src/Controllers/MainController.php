@@ -15,6 +15,10 @@ class MainController{
         $this->view->renderHtml('main/hello.php', ['name'=>$name]);
     }
 
+    public function sayBye(string $name){
+        $this->view->renderHtml('main/bye.php', ['name'=>$name]);
+    }
+
     public function main(){
         $articles = [
             'title'=>'Title 1',
