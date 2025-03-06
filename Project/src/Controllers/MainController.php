@@ -2,13 +2,15 @@
 
 namespace src\Controllers;
 use src\View\View;
+use src\Services\Db;
 
 class MainController{
     private $view;
-
+    private $db;
     public function __construct()
     {
         $this->view = new View(dirname(dirname(__DIR__)).'/templates');
+        $this->db = new Db();
     }
     
     public function sayHello(string $name){
@@ -20,10 +22,9 @@ class MainController{
     }
 
     public function main(){
-        $articles = [
-            'title'=>'Title 1',
-            'text'=>'Text 1',
-        ];
+        $sql = 'SELECT * FROM `articles`';
+        $articles = $this->db->query($sql);
+        var_dump($articles);
         $this->view->renderHtml('main/main.php', ['articles'=>$articles]);
     }
 }

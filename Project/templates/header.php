@@ -21,9 +21,6 @@
           <a class="nav-link" href="<?=dirname($_SERVER['SCRIPT_NAME']);?>/hello/maxim">Hello</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<?=dirname($_SERVER['SCRIPT_NAME']);?>/say/maxim">Hello</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="<?=dirname($_SERVER['SCRIPT_NAME']);?>/bye/maxim">Bye</a>
         </li>
       </ul>
