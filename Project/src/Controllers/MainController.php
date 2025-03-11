@@ -14,18 +14,18 @@ class MainController{
     }
     
     public function sayHello(string $name){
-        $this->view->renderHtml('main/hello.php', ['name'=>$name]);
+        $this->view->renderHtml('main/hello', ['name'=>$name]);
     }
 
     public function sayBye(string $name){
-        $this->view->renderHtml('main/bye.php', ['name'=>$name]);
+        $this->view->renderHtml2('main/bye.php', ['name'=>$name]);
     }
 
     public function main(){
         $sql = 'SELECT * FROM `articles`';
         $articles = $this->db->query($sql);
-        var_dump($articles);
-        $this->view->renderHtml('main/main.php', ['articles'=>$articles]);
+        // var_dump($articles);
+        $this->view->renderHtml('main/main', ['articles'=>$articles]);
     }
 }
 

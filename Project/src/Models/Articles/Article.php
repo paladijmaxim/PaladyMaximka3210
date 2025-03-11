@@ -14,7 +14,6 @@ class Article{
         $this->text = $text;
         $this->author = $author;
     }
-
     public function setTitle(string $title){
         $this->title = $title;
     }

@@ -3,31 +3,28 @@
     namespace src\Services;
 
     class Db{
-        private  $pdo;
+        private $pdo;
 
         public function __construct()
-            {
-                $dbOptions = require('settings.php');
+        {
+            $dbOptions = require('settings.php');
 
-                $this->pdo = new \PDO(
-                    'mysql:host='.$dbOptions['host'].';dbname='.$dbOptions['dbname'],
-                    $dbOptions['user'],
-                    $dbOptions['password'],
-                );
-            }
+            $this->pdo = new \PDO(
+                'mysql:host='.$dbOptions['host'].';dbname='.$dbOptions['dbname'],
+                $dbOptions['user'],
+                $dbOptions['password'],
+            );
+        }
 
-            public function query($sql, $params = []) :?array 
-            {
-                $sth = $this->pdo->prepare($sql);
-                $result = $sth->execute($params);
-                if ($result == false){
-                    return null;
-                }
-                return $sth->fetchAll();
+        public function query($sql, $params = []) :?array
+        {
+            $sth = $this->pdo->prepare($sql);
+            $result = $sth->execute($params);
+            if ($result == false){
+                return null;
             }
-    
+            return $sth->fetchAll();
+        }
     }
 
-
-
-    
+ 

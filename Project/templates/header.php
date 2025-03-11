@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -18,7 +18,7 @@
           <a class="nav-link active" aria-current="page" href="<?=$_SERVER['SCRIPT_NAME'];?>">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<?=dirname($_SERVER['SCRIPT_NAME']);?>/hello/maxim">Hello</a>
+          <a class="nav-link" href="<?=dirname($_SERVER['SCRIPT_NAME']);?>/hello/olga">Hello</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="<?=dirname($_SERVER['SCRIPT_NAME']);?>/bye/maxim">Bye</a>
@@ -29,4 +29,4 @@
 </nav>
 </header>
 <main>
-    <div class="container">
+    <div class="container mt-3">
