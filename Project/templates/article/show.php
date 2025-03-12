@@ -1,4 +1,8 @@
-<?php require dirname(__DIR__).'/header.php';?>
+<?php
+$title = $article['name']; // название статьи = заголовок
+require dirname(__DIR__) . '/header.php';
+?>
+
 <div class="card" style="width: 100%;">
   <div class="card-body">
     <h5 class="card-title"><?=$article['name'];?></h5>
