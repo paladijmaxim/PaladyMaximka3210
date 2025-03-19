@@ -2,19 +2,29 @@
 
 namespace src\Models\Users;
 
-class User{
-    private $name;
-    
-    public function __construct(string $name)
+class User {
+    private $id;
+    private $nickname;
+    private $email;
+    private $isConfirmed;
+    private $role;
+    private $passwordHash;
+    private $authToken;
+    private $createdAt;
+
+    public function __set($name, $value) 
     {
-        $this->name = $name;
+        $camelCaseName = $this->underscoreToCamelcase($name);
+        $this->$camelCaseName = $value;
     }
 
-    public function setName(string $name){
-        $this->name = $name;
-    }
-    public function getName(): string
+    private function underscoreToCamelcase(string $name): string
     {
-        return $this->name;
+        return lcfirst(str_replace('_', '', ucwords($name, '_')));
+    }
+
+    public function getNickname() 
+    {
+        return $this->nickname;
     }
 }

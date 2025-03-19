@@ -4,6 +4,7 @@ namespace src\Controllers;
 use src\View\View;
 use src\Services\Db;
 use src\Models\Articles\Article;
+use src\Models\Users\User;
 
 class ArticleController {
     private $view;
@@ -30,6 +31,12 @@ class ArticleController {
             return;
         }
 
-        $this->view->renderHtml('article/show', ['article'=>$article[0]]);
+        $authorSql = "SELECT * FROM `users` WHERE `id`=:authorId";
+        $author = $this->db->query($authorSql, [':authorId'=>$article[0]->getAuthorId()], User::class);
+
+        $this->view->renderHtml('article/show', [
+            'article' => $article[0],
+            'author' => $author[0],
+        ]);
     }
 }
