@@ -44,13 +44,13 @@ class ArticleController {
     }
 
     public function store(){
-        $article = new Article;
-        $article->name = $_POST['name'];
-        $article->text = $_POST['text'];
-        $article->authorId = 1;
-        $article->save();
-        return header('Location:http://localhost/PHP/Project/www/');
-    }
+         $article = new Article;
+         $article->name = $_POST['name'];
+         $article->text = $_POST['text'];
+         $article->authorId = 1;
+         $article->save();
+         return header('Location:http://localhost/PHP/Project/www/');
+     }
 
     public function edit(int $id){
         $article = Article::getById($id);
@@ -63,5 +63,14 @@ class ArticleController {
         $article->setText($_POST['text']);
         $article->save();
         return $this->view->renderHtml('article/show', ['article'=>$article]);
+    }
+
+    public function save(): void
+    {
+        if ($this->id) {
+            $sql = 'INSERT INTO articles (name, text, author_id) VALUES (:name, :text, :author_id)';
+            $params = [':name' => $this->name, ':text' => $this->text, ':author_id' => $this->authorId];
+        }
+        $this->db->query($sql, $params);
     }
 }
