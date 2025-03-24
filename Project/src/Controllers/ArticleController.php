@@ -39,6 +39,19 @@ class ArticleController {
         ]);
     }
 
+    public function create(){
+        return $this->view->renderHtml('article/create');
+    }
+
+    public function store(){
+        $article = new Article;
+        $article->name = $_POST['name'];
+        $article->text = $_POST['text'];
+        $article->authorId = 1;
+        $article->save();
+        return header('Location:http://localhost/PHP/Project/www/');
+    }
+
     public function edit(int $id){
         $article = Article::getById($id);
         return $this->view->renderHtml('/article/edit', ['article'=>$article]);

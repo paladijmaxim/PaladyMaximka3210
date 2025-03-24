@@ -1,6 +1,8 @@
 <?php
 
     return [
+        "~article/create$~" => [src\Controllers\ArticleController::class, 'create'],
+        "~article$~" => [src\Controllers\ArticleController::class, 'store'],
         "~article/(\d+)$~" => [src\Controllers\ArticleController::class, 'show'],
          "~article/(\d+)/edit~" => [src\Controllers\ArticleController::class, 'edit'],
          "~article/(\d+)/update~" => [src\Controllers\ArticleController::class, 'update'],
