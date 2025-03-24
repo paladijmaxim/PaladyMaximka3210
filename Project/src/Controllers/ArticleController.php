@@ -1,6 +1,7 @@
 <?php
 
 namespace src\Controllers;
+
 use src\View\View;
 use src\Services\Db;
 use src\Models\Articles\Article;
@@ -9,34 +10,31 @@ use src\Models\Users\User;
 class ArticleController {
     private $view;
     private $db;
+
     public function __construct()
     {
         $this->view = new View(dirname(dirname(__DIR__)).'/templates');
-        $this->db = new Db();
+        $this->db = Db::getInstance();
     }
 
-    public function index(){
-        $sql = 'SELECT * FROM `articles`';
-        $articles = $this->db->query($sql, [], Article::class);
-        // var_dump($articles);
-        $this->view->renderHtml('main/main', ['articles'=>$articles]);
+    public function index() {
+        $articles = Article::findAll();
+        $this->view->renderHtml('main/main', ['articles' => $articles]);
     }
 
-    public function show(int $id){
-        $sql = "SELECT * FROM `articles` WHERE `id`=:id";
-        $article = $this->db->query($sql, [':id'=>$id], Article::class);
+    public function show(int $id) {
+        $article = Article::getById($id);
 
-        if ($article == null){
+        if (!$article) {
             $this->view->renderHtml('main/error', [], 404);
             return;
         }
 
-        $authorSql = "SELECT * FROM `users` WHERE `id`=:authorId";
-        $author = $this->db->query($authorSql, [':authorId'=>$article[0]->getAuthorId()], User::class);
+        $author = $article->getAuthor();
 
         $this->view->renderHtml('article/show', [
-            'article' => $article[0],
-            'author' => $author[0],
+            'article' => $article,
+            'author' => $author,
         ]);
     }
 }

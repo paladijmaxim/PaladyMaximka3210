@@ -1,43 +1,34 @@
 <?php
 
 namespace src\Models\Articles;
+
 use src\Models\Users\User;
+use src\Models\ActiveRecordEntity;
 
-class Article{
-    private $id;
-    private $name;
-    private $text;
-    private $authorId;
-    private $createdAt;
+class Article extends ActiveRecordEntity
+{
+    protected $name;
+    protected $text;
+    protected $authorId;
+    protected $createdAt;
 
-    public function  __set($name, $value) 
-    {
-        $camelCaseName = $this->underscoreToCamelcase($name);
-        $this->$camelCaseName = $value;
-    }
-
-    private function underscoreToCamelcase(string $name): string
-    {
-        return lcfirst(str_replace('_', '', ucwords($name, '_')));
-    }
-    
-    public function getId() 
-    {
-        return $this->id;
-    }
-
-    public function getName() 
+    public function getName(): string 
     {
         return $this->name;
     }
 
-    public function getText() 
+    public function getText(): string 
     {
         return $this->text;
     }
 
-    public function getAuthorId() 
+    public function getAuthor(): User 
     {
-        return $this->authorId;
+        return User::getById($this->authorId);
+    }
+
+    protected static function getTableName(): string 
+    {
+        return 'articles';
     }
 }

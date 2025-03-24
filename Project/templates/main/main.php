@@ -1,6 +1,5 @@
 <?php
-    require dirname(__DIR__).'../header.php';
-    // echo "<h1>Главная старница</h1>";
+require dirname(__DIR__).'../header.php';
 ?>
 <table class="table">
   <thead>
@@ -12,13 +11,13 @@
     </tr>
   </thead>
   <tbody>
-    <?php foreach($articles as $article):?>
+    <?php foreach($articles as $article): ?>
     <tr>
-      <th scope="row"><?=$article->getId();?></th>
-      <td><a href="<?=dirname($_SERVER['SCRIPT_NAME']).'/article/'.$article->getId();?>"><?=$article->getName();?></a></td>
-      <td><?=$article->getText();?></td>
-      <td><?=$article->getAuthorId();?></td>
+      <th scope="row"><?= $article->getId(); ?></th>
+      <td><a href="<?= dirname($_SERVER['SCRIPT_NAME']).'/article/'.$article->getId(); ?>"><?= $article->getName(); ?></a></td>
+      <td><?= $article->getText(); ?></td>
+      <td><?= $article->getAuthor()->getNickname(); ?></td>
     </tr>
-    <?php endforeach;?>
+    <?php endforeach; ?>
   </tbody>
 </table>
