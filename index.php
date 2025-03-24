@@ -61,19 +61,19 @@
         
     // }
 
-    $names = [
-        "XVI" => "Иван Васильевич",
-        "XVIII" => "Пётр Алексеевич",
-        "XIX" => "Николай Павлович"
-    ];
+    // $names = [
+    //     "XVI" => "Иван Васильевич",
+    //     "XVIII" => "Пётр Алексеевич",
+    //     "XIX" => "Николай Павлович"
+    // ];
     
-    foreach ($names as $CEN => $name) {
-        echo "<a href='index.php?vek=$CEN'>$CEN vek</a><br>";
-    }
+    // foreach ($names as $CEN => $name) {
+    //     echo "<a href='index.php?vek=$CEN'>$CEN vek</a><br>";
+    // }
 
-    if (!empty($_GET['vek'])) {
-        $vek = $_GET['vek']; 
-        if (array_key_exists($vek, $names)) {
-            echo "В $vek веке царствовал " . $names[$vek];
-        }
-    }
+    // if (!empty($_GET['vek'])) {
+    //     $vek = $_GET['vek']; 
+    //     if (array_key_exists($vek, $names)) {
+    //         echo "В $vek веке царствовал " . $names[$vek];
+    //     }
+    // }
