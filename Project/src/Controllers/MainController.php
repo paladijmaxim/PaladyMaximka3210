@@ -4,21 +4,20 @@ namespace src\Controllers;
 use src\View\View;
 use src\Services\Db;
 
-class MainController{
+class MainController {
     private $view;
     private $db;
-    public function __construct()
-    {
+    
+    public function __construct(){
         $this->view = new View(dirname(dirname(__DIR__)).'/templates');
-        $this->db = new Db();
+        $this->db = Db::getInstance();
     }
     
     public function sayHello(string $name){
-        $this->view->renderHtml('main/hello', ['name'=>$name]);
+        $this->view->renderHtml('main/hello', ['name' => $name]);
     }
 
     public function sayBye(string $name){
-        $this->view->renderHtml2('main/bye.php', ['name'=>$name]);
+        $this->view->renderHtml('main/bye', ['name' => $name]);
     }
 }
-

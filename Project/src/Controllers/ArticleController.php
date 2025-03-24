@@ -6,6 +6,7 @@ use src\View\View;
 use src\Services\Db;
 use src\Models\Articles\Article;
 use src\Models\Users\User;
+use ReflectionObject;
 
 class ArticleController {
     private $view;
@@ -36,5 +37,18 @@ class ArticleController {
             'article' => $article,
             'author' => $author,
         ]);
+    }
+
+    public function edit(int $id){
+        $article = Article::getById($id);
+        return $this->view->renderHtml('/article/edit', ['article'=>$article]);
+    }
+
+    public function update(int $id){
+        $article = Article::getById($id);
+        $article->setName($_POST['name']);
+        $article->setText($_POST['text']);
+        $article->save();
+        return $this->view->renderHtml('article/show', ['article'=>$article]);
     }
 }
