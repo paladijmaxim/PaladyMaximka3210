@@ -11,3 +11,7 @@
    <button type="submit" class="btn btn-primary">Update</button>
  </form>
  <?php require dirname(__DIR__).'/footer.php';?>
+ <form action="/comment/<?= $comment->getId() ?>/update" method="POST">
+    <textarea class="form-control" name="text"><?= htmlspecialchars($comment->getText()) ?></textarea>
+    <button type="submit" class="btn btn-primary mt-2">Сохранить</button>
+</form>

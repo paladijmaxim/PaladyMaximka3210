@@ -2,6 +2,7 @@
 
 namespace src\Controllers;
 
+use src\Models\Comments\Comment;
 use src\View\View;
 use src\Services\Db;
 use src\Models\Articles\Article;
@@ -23,21 +24,20 @@ class ArticleController {
         $this->view->renderHtml('main/main', ['articles' => $articles]);
     }
 
-    public function show(int $id) {
-        $article = Article::getById($id);
-
-        if (!$article) {
-            $this->view->renderHtml('main/error', [], 404);
-            return;
-        }
-
-        $author = $article->getAuthor();
-
-        $this->view->renderHtml('article/show', [
-            'article' => $article,
-            'author' => $author,
-        ]);
+    public function show(int $id)
+{
+    $article = Article::getById($id);
+    if (!$article) {
+        $this->view->renderHtml('main/error', [], 404);
+        return;
     }
+    $comments = Comment::findAllByArticleId($id) ?? []; 
+    $this->view->renderHtml('article/show', [
+        'article' => $article,
+        'author' => $article->getAuthor(),
+        'comments' => $comments
+    ]);
+}
 
     public function create(){
         return $this->view->renderHtml('article/create');

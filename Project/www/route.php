@@ -10,4 +10,8 @@
         "~^$~" => [src\Controllers\ArticleController::class, 'index'],
         "~^hello/(.*)$~" =>[src\Controllers\MainController::class, 'sayHello'],
         "~^bye/(.*)$~" =>[src\Controllers\MainController::class, 'sayBye'],
+        // "~^article/(\d+)/comment$~" => [CommentController::class, 'store'],
+        "~^comment/(\d+)/edit$~" => [CommentController::class, 'edit'],
+        "~^comment/(\d+)/update$~" => [CommentController::class, 'update'],
+        '#^article/(\d+)/comment$#' => ['src\Controllers\CommentController', 'store'],
     ];
