@@ -56,6 +56,7 @@ class ArticleController {
         return $this->view->renderHtml('article/show', ['article'=>$article]);
     }
 
+
     public function store()
 {
     try {
@@ -63,11 +64,10 @@ class ArticleController {
             throw new \InvalidArgumentException('Название статьи обязательно');
         }
 
-        $article = new \src\Models\Articles\Article(); // Полный путь к классу
+        $article = new \src\Models\Articles\Article(); 
         $article->setName($_POST['name']);
         $article->setText($_POST['text'] ?? '');
-        $article->setAuthorId(1); // Временное решение
-
+        $article->setAuthorId(1); 
         if ($article->save()) {
             header('Location: /');
             exit();

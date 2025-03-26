@@ -39,25 +39,4 @@ class Article
         
         return (bool)$db->query($sql, $params);
     }
-
-    public static function findAll(): array
-{
-    $db = Db::getInstance();
-    return $db->query(
-        'SELECT * FROM articles',
-        [],
-        static::class // Указываем класс для преобразования результатов
-    );
-}
-    public static function getById(int $id): ?self
-    {
-        $db = Db::getInstance();
-        $result = $db->query(
-            'SELECT * FROM articles WHERE id = :id',
-            [':id' => $id],
-            static::class
-        );
-        return $result[0] ?? null;
-    }
-
 }
