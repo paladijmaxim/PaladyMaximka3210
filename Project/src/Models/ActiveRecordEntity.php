@@ -50,10 +50,17 @@
      
          public static function getById(int $id): ?static
          {
+             if ($id <= 0) {
+                 return null;
+             }
+             
              $db = Db::getInstance();
-             $sql = 'SELECT * FROM `'.static::getTableName().'` WHERE `id`=:id';
-             $result = $db->query($sql, [':id'=>$id], static::class);
-             return $result ? $result[0] : null;
+             $entities = $db->query(
+                 'SELECT * FROM ' . static::getTableName() . ' WHERE id = :id',
+                 [':id' => $id],
+                 static::class
+             );
+             return $entities[0] ?? null;
          }
 
          public function save()

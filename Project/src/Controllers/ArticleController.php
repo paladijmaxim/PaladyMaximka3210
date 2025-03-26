@@ -53,31 +53,32 @@ class ArticleController {
         $article->setName($_POST['name']);
         $article->setText($_POST['text']);
         $article->save();
-        return $this->view->renderHtml('article/show', ['article'=>$article]);
+        header('Location: /article/'.$id);
+        exit();
     }
-
 
     public function store()
-{
-    try {
-        if (empty($_POST['name'])) {
-            throw new \InvalidArgumentException('Название статьи обязательно');
-        }
+    {
+        try {
+            if (empty($_POST['name'])) {
+                throw new \InvalidArgumentException('Название статьи обязательно');
+            }
 
-        $article = new \src\Models\Articles\Article(); 
-        $article->setName($_POST['name']);
-        $article->setText($_POST['text'] ?? '');
-        $article->setAuthorId(1); 
-        if ($article->save()) {
-            header('Location: /');
-            exit();
+            $article = new Article();
+            $article->setName($_POST['name']);
+            $article->setText($_POST['text'] ?? '');
+            $article->setAuthorId(1);
+            
+            if ($article->save()) {
+                header('Location: /');
+                exit();
+            }
+        } catch (\Exception $e) {
+            error_log($e->getMessage());
+            $this->view->renderHtml('article/create', [
+                'error' => $e->getMessage(),
+                'name' => $_POST['name'] ?? ''
+            ]);
         }
-    } catch (\Exception $e) {
-        error_log($e->getMessage());
-        $this->view->renderHtml('article/create', [
-            'error' => $e->getMessage(),
-            'name' => $_POST['name'] ?? ''
-        ]);
     }
-}
 }
