@@ -18,17 +18,13 @@ class Db
         );
     }
 
-    public function query(string $sql, array $params = [], string $className = 'stdClass'): ?array
-    {
-        $sth = $this->pdo->prepare($sql);
-        $result = $sth->execute($params);
-        
-        if ($result === false) {
-            return null;
-        }
-        
-        return $sth->fetchAll(\PDO::FETCH_CLASS, $className);
-    }
+    public function query(string $sql, array $params = [], string $className = 'stdClass'): array
+{
+    $sth = $this->pdo->prepare($sql);
+    $sth->execute($params);
+    
+    return $sth->fetchAll(\PDO::FETCH_CLASS, $className);
+}
 
     public static function getInstance(): self
     {

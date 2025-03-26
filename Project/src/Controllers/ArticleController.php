@@ -7,7 +7,7 @@ use src\View\View;
 use src\Services\Db;
 use src\Models\Articles\Article;
 use src\Models\Users\User;
-use ReflectionObject;
+use Exception;
 
 class ArticleController {
     private $view;
@@ -25,32 +25,23 @@ class ArticleController {
     }
 
     public function show(int $id)
-{
-    $article = Article::getById($id);
-    if (!$article) {
-        $this->view->renderHtml('main/error', [], 404);
-        return;
+    {
+        $article = Article::getById($id);
+        if (!$article) {
+            $this->view->renderHtml('main/error', [], 404);
+            return;
+        }
+        $comments = Comment::findAllByArticleId($id) ?? []; 
+        $this->view->renderHtml('article/show', [
+            'article' => $article,
+            'author' => $article->getAuthor(),
+            'comments' => $comments
+        ]);
     }
-    $comments = Comment::findAllByArticleId($id) ?? []; 
-    $this->view->renderHtml('article/show', [
-        'article' => $article,
-        'author' => $article->getAuthor(),
-        'comments' => $comments
-    ]);
-}
 
     public function create(){
         return $this->view->renderHtml('article/create');
     }
-
-    public function store(){
-         $article = new Article;
-         $article->name = $_POST['name'];
-         $article->text = $_POST['text'];
-         $article->authorId = 1;
-         $article->save();
-         return header('Location:http://localhost/PHP/Project/www/');
-     }
 
     public function edit(int $id){
         $article = Article::getById($id);
@@ -65,12 +56,28 @@ class ArticleController {
         return $this->view->renderHtml('article/show', ['article'=>$article]);
     }
 
-    public function save(): void
-    {
-        if ($this->id) {
-            $sql = 'INSERT INTO articles (name, text, author_id) VALUES (:name, :text, :author_id)';
-            $params = [':name' => $this->name, ':text' => $this->text, ':author_id' => $this->authorId];
+    public function store()
+{
+    try {
+        if (empty($_POST['name'])) {
+            throw new \InvalidArgumentException('Название статьи обязательно');
         }
-        $this->db->query($sql, $params);
+
+        $article = new \src\Models\Articles\Article(); // Полный путь к классу
+        $article->setName($_POST['name']);
+        $article->setText($_POST['text'] ?? '');
+        $article->setAuthorId(1); // Временное решение
+
+        if ($article->save()) {
+            header('Location: /');
+            exit();
+        }
+    } catch (\Exception $e) {
+        error_log($e->getMessage());
+        $this->view->renderHtml('article/create', [
+            'error' => $e->getMessage(),
+            'name' => $_POST['name'] ?? ''
+        ]);
     }
+}
 }
