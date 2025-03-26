@@ -1,10 +1,7 @@
 <?php
 
 $title = $article->getName();
-$comments = $comments ?? []; // Инициализация переменной
-require dirname(__DIR__) . '/header.php';
-
-$title = $article->getName(); 
+$comments = $comments ?? []; 
 require dirname(__DIR__) . '/header.php';
 ?>
 
