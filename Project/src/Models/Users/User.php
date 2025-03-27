@@ -4,9 +4,9 @@ namespace src\Models\Users;
 
 use src\Models\ActiveRecordEntity;
 
-class User extends ActiveRecordEntity
+class User extends ActiveRecordEntity // класс User наследуется от ActiveRecordEntity
 {
-    protected $nickname;
+    protected $nickname; //эти свойства будут доступны самому классу и его детишкам 
     protected $email;
     protected $isConfirmed;
     protected $role;
@@ -14,17 +14,17 @@ class User extends ActiveRecordEntity
     protected $authToken;
     protected $createdAt;
 
-    public function setName(string $name): void
+    public function setName(string $name): void 
     {
-        $this->nickname = $name;
+        $this->nickname = $name;  //свойтсву nickname присвоены значения прееменной $name
     }
 
-    public function getNickname(): string
+    public function getNickname(): string // метод должен вернуть строку 
     {
-        return $this->nickname;
+        return $this->nickname; // возвращает текущее значение nickanme 
     }
 
-    public function getName(): string
+    public function getName(): string // метод должен вернуть строку 
     {
         return $this->nickname;
     }
