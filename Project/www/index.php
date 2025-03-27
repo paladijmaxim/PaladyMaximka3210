@@ -1,33 +1,40 @@
 <?php
 
-    spl_autoload_register(function(string $className){
-        require_once dirname(__DIR__).'\\'.$className.'.php';
-    });
-
+spl_autoload_register(function(string $className) {
+    // Преобразуем неймспейс в путь к файлу
+    $filePath = str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';
+    $fullPath = dirname(__DIR__) . DIRECTORY_SEPARATOR . $filePath;
     
-    $findRoute = false;
-    
-    $route = $_GET['route'] ?? '';
-    // var_dump($route);
-    $patterns = require 'route.php';
-    foreach ($patterns as $pattern=>$controllerAndAction){
-        preg_match($pattern, $route, $matches);
-        if (!empty($matches)){
-            $findRoute = true;
-            unset($matches[0]);
-            $nameController = $controllerAndAction[0];
-            $actionName = $controllerAndAction[1];
-            $controller = new $nameController;
-            $controller->$actionName(...$matches);
-            break;
-        }
+    if (file_exists($fullPath)) {
+        require_once $fullPath;
+    } else {
+        throw new Exception("Class file not found: {$fullPath}");
     }
-    
-    if (!$findRoute) echo "Page not found (404)";
+});
 
+$findRoute = false;
+$route = $_GET['route'] ?? '';
 
-    $user = new src\Models\Users\User('Ivan');
-    $article = new src\Models\Articles\Article('title', 'text', $user);
+$patterns = require 'route.php';
+foreach ($patterns as $pattern => $controllerAndAction) {
+    if (preg_match($pattern, $route, $matches)) {
+        $findRoute = true;
+        unset($matches[0]);
+        
+        $controllerClass = $controllerAndAction[0];
+        $action = $controllerAndAction[1];
+        
+        try {
+            $controller = new $controllerClass();
+            $controller->$action(...$matches);
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            echo "Error: " . $e->getMessage();
+        }
+        break;
+    }
+}
 
-    // var_dump($user);
-    // var_dump($article);
+if (!$findRoute) {
+    echo "Page not found (404)";
+}

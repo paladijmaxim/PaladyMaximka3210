@@ -70,12 +70,42 @@
          }
      
          private function update(){
-             echo 'update';
+            $properties = $this->mapPropertiesToDb();
+            $column2Params = [];
+            $param2Value = [];
+            foreach( $properties as $key=>$value){
+                $column = '`'.$key.'`';
+                $param = ':'.$key;
+                $column2Params[] = $column.'='.$param;
+                $param2Value[$param] = $value;
+            }
+            $sql = 'UPDATE `'.static::getTableName().'` SET '.implode(',', $column2Params).' WHERE `id`=:id';
+            $db = Db::getInstance();
+            $db->query($sql, $param2Value, static::class);
          }
      
          private function insert(){
-             echo 'insert'; 
+            $properties = array_filter($this->mapPropertiesToDb());
+            $columns = [];
+            $params = [];
+            $param2Value = [];
+             foreach($properties as $key=>$val){
+                 $columns[] = '`'.$key.'`';
+                 $param = ':'.$key;
+                 $params[] = $param;
+                 $param2Value[$param] = $val;
+             }
+            $sql = 'INSERT INTO `'.static::getTableName().'`('.implode(',', $columns).') VALUES ('.implode(',', $params).')';
+            $db = Db::getInstance();
+            $db->query($sql, $param2Value, static::class);
          }
+         
+         public function delete()
+     {
+         $sql = 'DELETE FROM `'.static::getTableName().'` WHERE `id`=:id';
+         $db = Db::getInstance();
+         $db->query($sql, [':id'=>$this->id], static::class);
+     }
 
          abstract protected static function getTableName(): string;
      }

@@ -1,6 +1,8 @@
 <?php
 
+
 namespace src\Controllers;
+
 
 use src\Models\Comments\Comment;
 use src\View\View;
@@ -9,9 +11,11 @@ use src\Models\Articles\Article;
 use src\Models\Users\User;
 use Exception;
 
+
 class ArticleController {
     private $view;
     private $db;
+
 
     public function __construct()
     {
@@ -19,10 +23,12 @@ class ArticleController {
         $this->db = Db::getInstance();
     }
 
+
     public function index() {
         $articles = Article::findAll();
         $this->view->renderHtml('main/main', ['articles' => $articles]);
     }
+
 
     public function show(int $id)
     {
@@ -31,7 +37,9 @@ class ArticleController {
             $this->view->renderHtml('main/error', [], 404);
             return;
         }
+
         $comments = Comment::findAllByArticleId($id) ?? []; 
+        
         $this->view->renderHtml('article/show', [
             'article' => $article,
             'author' => $article->getAuthor(),
@@ -39,14 +47,27 @@ class ArticleController {
         ]);
     }
 
+
+    public function delete(int $id){
+        $article = Article::getById($id);
+        if ($article == null){
+            throw new NotFoundException();
+        }
+        $article->delete();
+        return header('Location:http://localhost/Project/www/');
+    }
+    
+
     public function create(){
         return $this->view->renderHtml('article/create');
     }
+
 
     public function edit(int $id){
         $article = Article::getById($id);
         return $this->view->renderHtml('/article/edit', ['article'=>$article]);
     }
+
 
     public function update(int $id){
         $article = Article::getById($id);
@@ -56,6 +77,7 @@ class ArticleController {
         header('Location: /article/'.$id);
         exit();
     }
+
 
     public function store()
     {

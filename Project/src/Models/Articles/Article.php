@@ -65,4 +65,11 @@ class Article
         );
         return $result[0] ?? null;  // вернет статью по ее id, если не найдет статью - null
     }
+
+    public function delete(): void
+{
+    $sql = 'DELETE FROM articles WHERE id = :id';
+    $db = Db::getInstance();
+    $db->query($sql, [':id' => $this->id]);
+}
 }
