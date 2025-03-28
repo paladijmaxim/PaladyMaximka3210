@@ -34,8 +34,7 @@ class ArticleController {
     {
         $article = Article::getById($id);
         if (!$article) {
-            $this->view->renderHtml('main/error', [], 404);
-            return;
+            throw new NotFoundException();
         }
 
         $comments = Comment::findAllByArticleId($id) ?? []; 
@@ -48,13 +47,14 @@ class ArticleController {
     }
 
 
-    public function delete(int $id){
+    public function delete(int $id)
+    {
         $article = Article::getById($id);
-        if ($article == null){
+        if (!$article) {
             throw new NotFoundException();
         }
         $article->delete();
-        return header('Location:http://localhost/Project/www/');
+        header("Location: http://localhost/PHP/Project/www/");
     }
     
 
@@ -75,32 +75,15 @@ class ArticleController {
         $article->setText($_POST['text']);
         $article->save();
         header('Location: /article/'.$id);
-        exit();
     }
 
     public function store()
     {
-        try {
-            if (empty($_POST['name'])) {
-                throw new \InvalidArgumentException('Заголовок статьи обязателен');
-            }
-    
-            $article = new Article();
-            $article->setName($_POST['name']);
-            $article->setText($_POST['text'] ?? '');
-            $article->setAuthorId(1); 
-            
-            $article->save();
-
-            header("Location: http://localhost/PHP/Project/www/");
-            exit();
-    
-        } catch (\Exception $e) {
-            $this->view->renderHtml('article/create', [
-                'error' => $e->getMessage(),
-                'name' => $_POST['name'] ?? '',
-                'text' => $_POST['text'] ?? ''
-            ]);
-        }
+        $article = new Article();
+        $article->setName($_POST['name']);
+        $article->setText($_POST['text'] ?? '');
+        $article->setAuthorId(1); 
+        $article->save();
+        header("Location: http://localhost/PHP/Project/www/"); 
     }
 }

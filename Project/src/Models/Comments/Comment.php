@@ -1,5 +1,4 @@
 <?php
-// src/Models/Comments/Comment.php
 
 namespace src\Models\Comments;
 
@@ -72,20 +71,5 @@ class Comment extends ActiveRecordEntity
     protected static function getTableName(): string
     {
         return 'comments';
-    }
-
-    public function beforeSave(): void
-    {
-        if (empty($this->text)) {
-            throw new \InvalidArgumentException('Пустое значение');
-        }
-
-        if (empty($this->authorId)) {
-            throw new \InvalidArgumentException('Укажи автора');
-        }
-
-        if (empty($this->articleId)) {
-            throw new \InvalidArgumentException('Укажи статью');
-        }
     }
 }

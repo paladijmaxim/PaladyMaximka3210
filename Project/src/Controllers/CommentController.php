@@ -21,50 +21,27 @@ class CommentController
         $comment->setAuthorId(1); 
         $comment->setArticleId($articleId);
         $comment->save();
-
         header("Location: /article/{$articleId}#comment{$comment->getId()}");
-        exit;
     }
 
     public function edit(int $id)
     {
-        try {
-            $comment = Comment::getById($id);
-            if (!$comment) {
-                throw new \Exception('Комментарий не найден');
-            }
-            $this->view->renderHtml3('comment/edit.php', [
-                'comment' => $comment,
-                'error' => null
-            ]);
-        } catch (\Exception $e) {
-            $this->view->renderHtml3('comment/edit.php', [
-                'error' => $e->getMessage()
-            ]);
+        $comment = Comment::getById($id);
+        if (!$comment) {
+            throw new \Exception('Комментарий не найден');
         }
+        $this->view->renderHtml3('comment/edit.php', [
+            'comment' => $comment,
+            'error' => null
+        ]);
     }
 
     public function update(int $id)
     {
-        try {
-            $comment = Comment::getById($id);
-            if (!$comment) {
-                throw new \Exception('Комментарий не найден');
-            }
-            
-            $comment->setText($_POST['text']);
-            $comment->save();
-
-            // Убедитесь, что URL перенаправления правильный
-            $redirectUrl = dirname($_SERVER['SCRIPT_NAME']) . '/article/' . $comment->getArticleId() . '#comment' . $comment->getId();
-            header("Location: $redirectUrl");
-            exit;
-            
-        } catch (\Exception $e) {
-            $this->view->renderHtml('comment/edit', [
-                'comment' => $comment ?? null,
-                'error' => $e->getMessage()
-            ]);
-        }
+        $comment = Comment::getById($id); 
+        $comment->setText($_POST['text']);
+        $comment->save();
+        $redirectUrl = dirname($_SERVER['SCRIPT_NAME']) . '/article/' . $comment->getArticleId() . '#comment' . $comment->getId();
+        header("Location: $redirectUrl");
     }
 }

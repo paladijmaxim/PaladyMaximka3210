@@ -62,11 +62,10 @@ require dirname(__DIR__) . '/header.php';
                                 <small class="text-muted"><?= $comment->getCreatedAt() ?></small>
                             </div>
                             <p class="card-text"><?= nl2br(htmlspecialchars($comment->getText())) ?></p>
-                            <!-- В секции с комментариями -->
-<a href="<?= dirname($_SERVER['SCRIPT_NAME']) ?>/comment/<?= $comment->getId() ?>/edit" 
-   class="btn btn-sm btn-outline-secondary">
-   Редактировать
-</a>
+                            <a href="<?= dirname($_SERVER['SCRIPT_NAME']) ?>/comment/<?= $comment->getId() ?>/edit" 
+                            class="btn btn-sm btn-outline-secondary">
+                            Редактировать
+                            </a>
                         </div>
                     </div>
                 <?php endif; ?>

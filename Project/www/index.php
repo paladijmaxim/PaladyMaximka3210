@@ -1,14 +1,13 @@
 <?php
 
 spl_autoload_register(function(string $className) {
-    // Преобразуем неймспейс в путь к файлу
     $filePath = str_replace('\\', DIRECTORY_SEPARATOR, $className) . '.php';
     $fullPath = dirname(__DIR__) . DIRECTORY_SEPARATOR . $filePath;
     
     if (file_exists($fullPath)) {
         require_once $fullPath;
     } else {
-        throw new Exception("Class file not found: {$fullPath}");
+        throw new Exception("{$fullPath}");
     }
 });
 
