@@ -21,14 +21,15 @@ class CommentController
         $comment->setAuthorId(1); 
         $comment->setArticleId($articleId);
         $comment->save();
-        header("Location: /article/{$articleId}#comment{$comment->getId()}");
+        $bUrl = dirname($_SERVER['SCRIPT_NAME']);
+        header("Location: {$bUrl}/article/{$articleId}#comment{$comment->getId()}");
     }
 
     public function edit(int $id)
     {
         $comment = Comment::getById($id);
         if (!$comment) {
-            throw new \Exception('Комментарий не найден');
+            throw new \Exception();
         }
         $this->view->renderHtml3('comment/edit.php', [
             'comment' => $comment,
@@ -41,7 +42,7 @@ class CommentController
         $comment = Comment::getById($id); 
         $comment->setText($_POST['text']);
         $comment->save();
-        $redirectUrl = dirname($_SERVER['SCRIPT_NAME']) . '/article/' . $comment->getArticleId() . '#comment' . $comment->getId();
-        header("Location: $redirectUrl");
+        $rUrl = dirname($_SERVER['SCRIPT_NAME']).'/article/'.$comment->getArticleId().'#comment'.$comment->getId();
+        header("Location: $rUrl");
     }
 }

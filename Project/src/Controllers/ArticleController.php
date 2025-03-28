@@ -69,13 +69,17 @@ class ArticleController {
     }
 
 
-    public function update(int $id){
-        $article = Article::getById($id);
-        $article->setName($_POST['name']);
-        $article->setText($_POST['text']);
-        $article->save();
-        header('Location: /article/'.$id);
+    public function update(int $id)
+{
+    $article = Article::getById($id);
+    if (!$article) {
+        throw new NotFoundException();
     }
+    $article->setName($_POST['name']);
+    $article->setText($_POST['text']);
+    $article->save();
+    header("Location: http://localhost/PHP/Project/www/");
+}
 
     public function store()
     {
