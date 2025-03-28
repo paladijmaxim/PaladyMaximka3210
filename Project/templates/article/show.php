@@ -63,8 +63,8 @@ require dirname(__DIR__) . '/header.php';
                             </div>
                             <p class="card-text"><?= nl2br(htmlspecialchars($comment->getText())) ?></p>
                             <a href="/comment/<?= $comment->getId() ?>/edit" 
-                               class="btn btn-sm btn-outline-secondary">
-                               Редактировать
+                            class="btn btn-sm btn-outline-secondary">
+                            Редактировать
                             </a>
                         </div>
                     </div>

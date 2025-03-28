@@ -12,10 +12,10 @@ class Article
     private $author_id; 
 
     // Геттеры
-    public function getId(): int { return $this->id; }
-    public function getName(): string { return $this->name; }
-    public function getText(): string { return $this->text; }
-    public function getAuthorId(): int { return $this->author_id; } // Обновили геттер
+    public function getId(): int {return $this->id;}
+    public function getName(): string {return $this->name;}
+    public function getText(): string {return $this->text;}
+    public function getAuthorId(): int {return $this->author_id;} // Обновили геттер
     
     public function getAuthor(): ?User {
         if (!$this->author_id) {
@@ -25,9 +25,9 @@ class Article
     }
     
     // Сеттеры
-    public function setName(string $name): void { $this->name = $name; }
-    public function setText(string $text): void { $this->text = $text; }
-    public function setAuthorId(int $authorId): void { $this->author_id = $authorId; } // Обновили сеттер
+    public function setName(string $name): void {$this->name = $name;}
+    public function setText(string $text): void {$this->text = $text;}
+    public function setAuthorId(int $authorId): void {$this->author_id = $authorId;} // Обновили сеттер
     
     public function save(): bool
     {
