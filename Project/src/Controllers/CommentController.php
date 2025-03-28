@@ -1,6 +1,4 @@
 <?php
-// src/Controllers/CommentController.php
-
 namespace src\Controllers;
 
 use src\View\View;
@@ -30,17 +28,44 @@ class CommentController
 
     public function edit(int $id)
     {
-        $comment = Comment::getById($id);
-        $this->view->renderHtml('comment/edit', ['comment' => $comment]);
+        try {
+            $comment = Comment::getById($id);
+            if (!$comment) {
+                throw new \Exception('Комментарий не найден');
+            }
+            $this->view->renderHtml3('comment/edit.php', [
+                'comment' => $comment,
+                'error' => null
+            ]);
+        } catch (\Exception $e) {
+            $this->view->renderHtml3('comment/edit.php', [
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 
     public function update(int $id)
     {
-        $comment = Comment::getById($id);
-        $comment->setText($_POST['text']);
-        $comment->save();
+        try {
+            $comment = Comment::getById($id);
+            if (!$comment) {
+                throw new \Exception('Комментарий не найден');
+            }
+            
+            if (empty($_POST['text'])) {
+                throw new \Exception('Текст комментария не может быть пустым');
+            }
+            
+            $comment->setText($_POST['text']);
+            $comment->save();
 
-        header("Location: /article/{$comment->getArticleId()}#comment{$comment->getId()}");
-        exit;
+            header("Location: /article/{$comment->getArticleId()}#comment{$comment->getId()}");
+            exit;
+        } catch (\Exception $e) {
+            $this->view->renderHtml('comment/edit.php', [
+                'comment' => $comment ?? null,
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 }

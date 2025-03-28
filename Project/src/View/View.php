@@ -22,4 +22,11 @@ class View{
         extract($vars);
         include $this->templatesPath.'/'.$templateName;
     }
+
+    public function renderHtml3(string $templateName, $vars=[], $code=200) //для редактирвания комментария в edit вызывается 
+    {
+        http_response_code($code); // установка кода овтета
+        extract($vars); // импорт переменных из массива в тек таблицу 
+        include $this->templatesPath.'/'.$templateName; // подключения файла шаблона 
+    }
 }

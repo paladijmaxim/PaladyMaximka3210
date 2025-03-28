@@ -69,7 +69,7 @@ class Comment extends ActiveRecordEntity
         $db->query($sql, [':article_id' => $articleId]);
     }
 
-    protected static function getTableName(): string
+    protected static function ge    tTableName(): string
     {
         return 'comments';
     }
