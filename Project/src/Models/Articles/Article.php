@@ -9,33 +9,45 @@ class Article
     private $id;
     private $name;
     private $text;
-    private $authorId;
+    private $author_id; 
 
-// Геттеры, т.е. методы для чтения свойств
+    // Геттеры
     public function getId(): int { return $this->id; }
     public function getName(): string { return $this->name; }
     public function getText(): string { return $this->text; }
-    public function getAuthorId(): int { return $this->authorId; }
+    public function getAuthorId(): int { return $this->author_id; } // Обновили геттер
+    
     public function getAuthor(): ?User {
-    if (!$this->authorId) {
-        return null; 
+        if (!$this->author_id) {
+            return null; 
+        }
+        return User::getById($this->author_id);
     }
-    return User::getById($this->authorId);
-    }
-// Сеетры, т.е. методы для установки значений 
+    
+    // Сеттеры
     public function setName(string $name): void { $this->name = $name; }
     public function setText(string $text): void { $this->text = $text; }
-    public function setAuthorId(int $authorId): void { $this->authorId = $authorId; }
-    public function save(): bool  // этот метод определяет, нужно ли делать insert or apdate 
+    public function setAuthorId(int $authorId): void { $this->author_id = $authorId; } // Обновили сеттер
+    
+    public function save(): bool
     {
         $db = Db::getInstance();
         
-        if ($this->id) { // если id найдется, то обновится текщаяя запись 
-            $sql = 'UPDATE articles SET name=:name, text=:text WHERE id=:id';
-            $params = [':name' => $this->name, ':text' => $this->text, ':id' => $this->id];
-        } else { //  если нет, то создастся новая 
+        if ($this->id) {
+            $sql = 'UPDATE articles SET name=:name, text=:text, author_id=:author_id WHERE id=:id';
+            $params = [
+                ':name' => $this->name, 
+                ':text' => $this->text, 
+                ':author_id' => $this->author_id,
+                ':id' => $this->id
+            ];
+        } else {
             $sql = 'INSERT INTO articles (name, text, author_id) VALUES (:name, :text, :author_id)';
-            $params = [':name' => $this->name, ':text' => $this->text, ':author_id' => $this->authorId];
+            $params = [
+                ':name' => $this->name, 
+                ':text' => $this->text, 
+                ':author_id' => $this->author_id
+            ];
         }
         
         $result = $db->query($sql, $params, static::class);
@@ -47,29 +59,29 @@ class Article
         return (bool)$result;
     }
 
-    public static function findAll(): array // метод для работы с коллекциями 
+    public static function findAll(): array
     {
-        return Db::getInstance()->query( // возвращение массива всех статей из базы данных, при этом каждая статья - объект класса Article
+        return Db::getInstance()->query(
             'SELECT * FROM articles',
             [],
             static::class
         );
     }
 
-    public static function getById(int $id): ?self // метод для работы с коллекциями 
+    public static function getById(int $id): ?self
     {
         $result = Db::getInstance()->query(
             'SELECT * FROM articles WHERE id = :id',
             [':id' => $id],
             static::class
         );
-        return $result[0] ?? null;  // вернет статью по ее id, если не найдет статью - null
+        return $result[0] ?? null;
     }
 
     public function delete(): void
-{
-    $sql = 'DELETE FROM articles WHERE id = :id';
-    $db = Db::getInstance();
-    $db->query($sql, [':id' => $this->id]);
-}
+    {
+        $sql = 'DELETE FROM articles WHERE id = :id';
+        $db = Db::getInstance();
+        $db->query($sql, [':id' => $this->id]);
+    }
 }
