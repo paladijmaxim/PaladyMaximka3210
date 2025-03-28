@@ -78,28 +78,28 @@ class ArticleController {
         exit();
     }
 
-
     public function store()
     {
         try {
             if (empty($_POST['name'])) {
-                throw new \InvalidArgumentException('Название статьи обязательно');
+                throw new \InvalidArgumentException('Заголовок статьи обязателен');
             }
-
+    
             $article = new Article();
             $article->setName($_POST['name']);
             $article->setText($_POST['text'] ?? '');
-            $article->setAuthorId(1);
+            $article->setAuthorId(1); 
             
-            if ($article->save()) {
-                header('Location: /');
-                exit();
-            }
+            $article->save();
+
+            header("Location: http://localhost/PHP/Project/www/");
+            exit();
+    
         } catch (\Exception $e) {
-            error_log($e->getMessage());
             $this->view->renderHtml('article/create', [
                 'error' => $e->getMessage(),
-                'name' => $_POST['name'] ?? ''
+                'name' => $_POST['name'] ?? '',
+                'text' => $_POST['text'] ?? ''
             ]);
         }
     }
