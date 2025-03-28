@@ -52,17 +52,16 @@ class CommentController
                 throw new \Exception('Комментарий не найден');
             }
             
-            if (empty($_POST['text'])) {
-                throw new \Exception('Текст комментария не может быть пустым');
-            }
-            
             $comment->setText($_POST['text']);
             $comment->save();
 
-            header("Location: /article/{$comment->getArticleId()}#comment{$comment->getId()}");
+            // Убедитесь, что URL перенаправления правильный
+            $redirectUrl = dirname($_SERVER['SCRIPT_NAME']) . '/article/' . $comment->getArticleId() . '#comment' . $comment->getId();
+            header("Location: $redirectUrl");
             exit;
+            
         } catch (\Exception $e) {
-            $this->view->renderHtml('comment/edit.php', [
+            $this->view->renderHtml('comment/edit', [
                 'comment' => $comment ?? null,
                 'error' => $e->getMessage()
             ]);
