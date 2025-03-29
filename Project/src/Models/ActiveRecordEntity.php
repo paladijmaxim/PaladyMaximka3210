@@ -28,7 +28,7 @@
              return strtolower(preg_replace('/([A-Z])/', '_$1', $source));
          }
  
-         private function mapPropertiesToDb(): array
+         private function mapPropertiesToDb(): array // рефлексия
          {
              $reflector = new ReflectionObject($this);
              $properties = $reflector->getProperties();
