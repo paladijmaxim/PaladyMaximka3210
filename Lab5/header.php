@@ -10,10 +10,9 @@
 <body>
     <header>
         <div class = 'center'>
-            <a href = 'PHP/Lab5/index.php?elem=menu' class = 'btn btn-warning'>Главное меню</a>
-            <a href = 'PHP/Lab5/index.php?elem=add' class = 'btn btn-warning'>Добавить запись</a>
-            <a href = 'PHP/Lab5/index.php?elem=delete' class = 'btn btn-warning'>Удалить запись</a>
-
+        <a href = '/PHP/Lab5/index.php?elem=menu' class = 'btn btn-warning'>Главное меню</a>
+        <a href = '/PHP/Lab5/index.php?elem=add' class = 'btn btn-warning'>Добавить запись</a>
+        <a href = '/PHP/Lab5/index.php?elem=delete' class = 'btn btn-warning'>Удалить запись</a>
         </div>  
     </header>
     <main>

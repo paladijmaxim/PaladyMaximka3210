@@ -3,14 +3,14 @@
   <div class="row mb-3">
     <label for="firstname" class="col-sm-2 col-form-label">First name</label>
     <div class="col-sm-10">
-      <input type="email" class="form-control" id="firstname">
+      <input type="text" class="form-control" id="firstname">
     </div>
   </div>
 
   <div class="row mb-3">
     <label for="name" class="col-sm-2 col-form-label">Name</label>
     <div class="col-sm-10">
-      <input type="email" class="form-control" id="name">
+      <input type="text" class="form-control" id="name">
     </div>
   </div>
 
