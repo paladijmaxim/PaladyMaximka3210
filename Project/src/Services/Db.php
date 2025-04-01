@@ -19,15 +19,12 @@ class Db
 
     public function query(string $sql, array $params = [], string $className = 'stdClass'): array
     {
-        try {
+
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($params);
-            $stmt->setFetchMode(\PDO::FETCH_CLASS, $className);
+            $stmt->setFetchMode(\PDO::FETCH_CLASS, $className); // указываем PDO преобразовывать каждую строку в объект указанного класса
             return $stmt->fetchAll();
-        } catch (\PDOException $e) {
-            error_log($e->getMessage());
-            return [];
-        }
+        
     }
 
     public function getLastInsertId(): int

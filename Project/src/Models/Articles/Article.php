@@ -50,7 +50,7 @@ class Article extends ActiveRecordEntity
         $this->author_id = $authorId;
     }
 
-    protected static function getTableName(): string
+    public static function getTableName(): string // здесь мы указываем, с какой таблицей работает модель 
     {
         return 'articles';
     }

@@ -45,7 +45,8 @@
          {
              $db = Db::getInstance();
              $sql = 'SELECT * FROM `'.static::getTableName().'`';
-             return $db->query($sql, [], static::class);
+             return $db->query($sql, [], 
+             static::class);
          }
      
          public static function getById(int $id): ?static
@@ -58,7 +59,7 @@
              $entities = $db->query(
                  'SELECT * FROM ' . static::getTableName() . ' WHERE id = :id',
                  [':id' => $id],
-                 static::class
+                 static::class // благодаря этому резульат будет преобразовываться в объект 
              );
              return $entities[0] ?? null;
          }

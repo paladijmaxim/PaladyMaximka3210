@@ -71,7 +71,7 @@ class ArticleController {
 
     public function update(int $id)
 {
-    $article = Article::getById($id);
+    $article = Article::getById($id); // вызов метода getById() из класса Article, который наследуется от ActiveRecordEntity
     if (!$article) {
         throw new NotFoundException();
     }
@@ -83,11 +83,11 @@ class ArticleController {
 
     public function store()
     {
-        $article = new Article();
+        $article = new Article(); // создали объект
         $article->setName($_POST['name']);
         $article->setText($_POST['text'] ?? '');
         $article->setAuthorId(1); 
-        $article->save();
+        $article->save(); // INSERT to Db
         header("Location: http://localhost/PHP/Project/www/"); 
     }
 }

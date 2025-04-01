@@ -29,7 +29,7 @@ class User extends ActiveRecordEntity // класс User наследуется 
         return $this->nickname;
     }
 
-    protected static function getTableName(): string
+    protected static function getTableName(): string // здесь мы указываем, с какой таблицей работает модель 
     {
         return 'users';
     }
