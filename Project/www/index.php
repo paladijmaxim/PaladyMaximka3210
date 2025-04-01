@@ -16,24 +16,15 @@ $route = $_GET['route'] ?? '';
 
 $patterns = require 'route.php';
 foreach ($patterns as $pattern => $controllerAndAction) {
-    if (preg_match($pattern, $route, $matches)) {
+    preg_match($pattern, $route, $matches);
+    if (!empty($matches)) {
         $findRoute = true;
         unset($matches[0]);
-        
         $controllerClass = $controllerAndAction[0];
         $action = $controllerAndAction[1];
-        
-        try {
-            $controller = new $controllerClass();
-            $controller->$action(...$matches);
-        } catch (Exception $e) {
-            error_log($e->getMessage());
-            echo "Error: " . $e->getMessage();
-        }
+        $controller = new $controllerClass();
+        $controller->$action(...$matches);
         break;
     }
 }
-
-if (!$findRoute) {
-    echo "Page not found (404)";
-}
+if (!$findRoute) echo "Page not found (404)";
