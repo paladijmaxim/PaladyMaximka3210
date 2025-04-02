@@ -21,7 +21,7 @@ class Comment extends ActiveRecordEntity
 
     public function getAuthor(): User
     {
-        return User::getById($this->authorId);
+        return User::getById($this->authorId); // возвращение объекта User 
     }
 
     public function getArticleId(): int
@@ -37,7 +37,7 @@ class Comment extends ActiveRecordEntity
 
     public function setText(string $text): void
     {
-        $this->text = trim($text);
+        $this->text = trim($text); // обрезка пробелов в начале и конце строки 
     }
 
     public function setAuthorId(int $authorId): void
@@ -50,13 +50,13 @@ class Comment extends ActiveRecordEntity
         $this->articleId = $articleId;
     }
 
-    public static function findAllByArticleId(int $articleId): array
+    public static function findAllByArticleId(int $articleId): array //тут получаем все комментарии к статье
     {
         $db = Db::getInstance();
         $sql = 'SELECT * FROM `'.static::getTableName().'` 
                 WHERE `article_id` = :article_id 
                 ORDER BY `created_at` DESC';
-        $result = $db->query($sql, [':article_id' => $articleId], static::class);
+        $result = $db->query($sql, [':article_id' => $articleId], static::class); // тут преобразуем резульат в объект класса Comment
         return $result ?: [];
     }
 

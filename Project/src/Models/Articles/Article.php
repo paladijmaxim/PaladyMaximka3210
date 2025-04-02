@@ -10,7 +10,7 @@ class Article extends ActiveRecordEntity
     protected $text;
     protected $author_id;
 
-    // Геттеры
+
     public function getName(): string 
     {
         return $this->name;
@@ -34,7 +34,7 @@ class Article extends ActiveRecordEntity
         return User::getById($this->author_id);
     }
     
-    // Сеттеры
+   
     public function setName(string $name): void 
     {
         $this->name = $name;

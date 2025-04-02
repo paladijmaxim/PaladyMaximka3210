@@ -12,7 +12,7 @@ class View{
 
     public function renderHtml(string $templateName, $vars=[], $code=200)
     {
-        http_response_code($code); // установка кода овтета
+        http_response_code($code); // установка кода ответа
         extract($vars); // импорт переменных из массива в тек таблицу 
         include $this->templatesPath.'/'.$templateName.'.php'; // подключения файла шаблона 
     }

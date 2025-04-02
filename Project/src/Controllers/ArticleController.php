@@ -25,12 +25,12 @@ class ArticleController {
 
 
     public function index() {
-        $articles = Article::findAll();
-        $this->view->renderHtml('main/main', ['articles' => $articles]);
+        $articles = Article::findAll(); // запрос всех статей с помощью через метод findAll который реализован в ARE.php
+        $this->view->renderHtml('main/main', ['articles' => $articles]); // рендерит шаблон, передавая все статьи
     }
 
 
-    public function show(int $id)
+    public function show(int $id) // тут смотрим одну статью 
     {
         $article = Article::getById($id);
         if (!$article) {
@@ -39,7 +39,7 @@ class ArticleController {
 
         $comments = Comment::findAllByArticleId($id) ?? []; 
         
-        $this->view->renderHtml('article/show', [
+        $this->view->renderHtml('article/show', [ //тут рендерим шаблон article/show и передаем статью, автора и комментарии 
             'article' => $article,
             'author' => $article->getAuthor(),
             'comments' => $comments
@@ -47,31 +47,31 @@ class ArticleController {
     }
 
 
-    public function delete(int $id)
+    public function delete(int $id) 
     {
         $article = Article::getById($id);
         if (!$article) {
             throw new NotFoundException();
         }
-        $article->delete();
+        $article->delete(); // тут удаляем статью через delete() - метод из ActiveRecordEntity
         header("Location: http://localhost/PHP/Project/www/");
     }
     
 
     public function create(){
-        return $this->view->renderHtml('article/create');
+        return $this->view->renderHtml('article/create');  // тут рендерим форму создания статьи templates/article/create.php
     }
 
 
     public function edit(int $id){
         $article = Article::getById($id);
-        return $this->view->renderHtml('/article/edit', ['article'=>$article]);
+        return $this->view->renderHtml('/article/edit', ['article'=>$article]); // тут рендерим форму редактирования templates/article/edit.phр, передавая id статьи 
     }
 
 
     public function update(int $id)
 {
-    $article = Article::getById($id); // вызов метода getById() из класса Article, который наследуется от ActiveRecordEntity
+    $article = Article::getById($id); // тут вызываем метод getById() из класса Article, который наследуется от ActiveRecordEntity
     if (!$article) {
         throw new NotFoundException();
     }
@@ -81,9 +81,9 @@ class ArticleController {
     header("Location: http://localhost/PHP/Project/www/");
 }
 
-    public function store()
+    public function store() // функция для сохранения новых статей
     {
-        $article = new Article(); // создали объект
+        $article = new Article(); // создали новый объект
         $article->setName($_POST['name']);
         $article->setText($_POST['text'] ?? '');
         $article->setAuthorId(1); 

@@ -12,7 +12,7 @@
              return $this->id;
          }
  
-         public function __set($name, $value)
+         public function __set($name, $value) // рефлексия, необходимо для сопоставления полей БД со свойствами объекта
          {
              $camelCaseName = $this->underscoreToCamelcase($name);
              $this->$camelCaseName = $value;
@@ -66,7 +66,7 @@
 
          public function save()
          {
-             if ($this->getId()) $this->update();
+             if ($this->getId()) $this->update(); //если есть id, то выполняет update
              else $this->insert();
          }
      
