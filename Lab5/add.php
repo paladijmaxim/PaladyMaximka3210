@@ -1,54 +1,32 @@
-<?php require('header.php'); ?>
-<form action = 'index.php' method = 'POST'>
-  <div class="row mb-3">
-    <label for="firstname" class="col-sm-2 col-form-label">First name</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="firstname">
-    </div>
+<form action='index.php' method="POST">
+  <div class="mb-3">
+    <label for="firstname" class="form-label">Firstname</label>
+    <input type="text" class="form-control" id="firstname" name="firstname">
   </div>
-
-  <div class="row mb-3">
-    <label for="name" class="col-sm-2 col-form-label">Name</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="name">
-    </div>
+  <div class="mb-3">
+    <label for="name" class="form-label">Name</label>
+    <input type="text" class="form-control" id="name" name="name">
   </div>
-
-  <div class="row mb-3">
-    <label for="lastname" class="col-sm-2 col-form-label">Lastname</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="lastname">
-    </div>
+  <div class="mb-3">
+    <label for="lastname" class="form-label">Lastname</label>
+    <input type="text" class="form-control" id="lastname" name="lastname">
   </div>
-
-  <div class="row mb-3">
-    <label for="date" class="col-sm-2 col-form-label">date</label>
-    <div class="col-sm-10">
-      <input type="date" class="form-control" id="date">
-    </div>
+  <div class="mb-3">
+    <label for="date" class="form-label">Date birthday</label>
+    <input type="date" class="form-control" id="date" name="date">
   </div>
-
-  <div class="row mb-3">
-    <label for="email" class="col-sm-2 col-form-label">email</label>
-    <div class="col-sm-10">
-      <input type="email" class="form-control" id="email">
-    </div>
+  <div class="mb-3">
+    <label for="email" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="email" name="email">
   </div>
-
-  <div class="row mb-3">
-    <label for="phone" class="col-sm-2 col-form-label">phone</label>
-    <div class="col-sm-10">
-      <input type="tel" class="form-control" id="phone">
-    </div>
+  <div class="mb-3">
+    <label for="phone" class="form-label">Phone number</label>
+    <input type="tel" class="form-control" id="phone" name="phone">
   </div>
-
-  <div class="row mb-3">
-    <label for="Comment" class="col-sm-2 col-form-label">Comment</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="Comment">
+    <div class="mb-3">
+        <label for="comment" class="form-label">Comment</label>
+        <textarea name="comment" class="form-control" id="comment"></textarea>
     </div>
-  </div>
-  
-  <button type="submit" class="btn btn-primary">Sign in</button>
+  <button type="submit" class="btn btn-primary">Save</button>
 </form>
 <?php require('footer.php');?>
