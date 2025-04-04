@@ -18,7 +18,6 @@
         
         <div class="d-flex gap-2">
             <button type="submit" class="btn btn-primary">Сохранить</button>
-            <a href="/article/<?= $comment->getArticleId() ?>" class="btn btn-secondary">Отмена</a>
         </div>
     </form>
     <?php endif; ?>

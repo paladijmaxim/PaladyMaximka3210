@@ -1,5 +1,5 @@
 <?php require dirname(__DIR__).'/header.php';?>
-<form action="<?= htmlspecialchars(dirname($_SERVER['SCRIPT_NAME']) . '/article') ?>" method="POST">
+<form action="<?= htmlspecialchars(dirname($_SERVER['SCRIPT_NAME']) . '/article') ?>" method="POST"> <!-- к базовуму пути добавляется article -->
    <div class="mb-3">
      <label for="name" class="form-label">Article title</label>
      <input type="text" class="form-control" id="name" name="name">

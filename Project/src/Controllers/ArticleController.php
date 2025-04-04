@@ -77,7 +77,7 @@ class ArticleController {
     }
     $article->setName($_POST['name']);
     $article->setText($_POST['text']);
-    $article->save();
+    $article->save(); // запрос на сохранение идет от объекта модели - active record
     header("Location: http://localhost/PHP/Project/www/");
 }
 

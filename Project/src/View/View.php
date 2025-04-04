@@ -10,11 +10,11 @@ class View{
         $this->templatesPath = $templatesPath;
     }
 
-    public function renderHtml(string $templateName, $vars=[], $code=200)
+    public function renderHtml(string $templateName, $vars=[], $code=200) // vars - массив с переменными шаблона  
     {
         http_response_code($code); // установка кода ответа
-        extract($vars); // импорт переменных из массива в тек таблицу 
-        include $this->templatesPath.'/'.$templateName.'.php'; // подключения файла шаблона 
+        extract($vars); // преобразует массив в переменные
+        include $this->templatesPath.'/'.$templateName.'.php'; // подключение файла шаблона 
     }
 
     public function renderHtml2(string $templateName, $vars=[])

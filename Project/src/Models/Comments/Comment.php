@@ -52,20 +52,12 @@ class Comment extends ActiveRecordEntity
 
     public static function findAllByArticleId(int $articleId): array //тут получаем все комментарии к статье
     {
-        $db = Db::getInstance(); // паттерн сиглтон, может быть только один экземпляр 
+        $db = Db::getInstance(); // подключение к БД посредством синглтона 
         $sql = 'SELECT * FROM `'.static::getTableName().'` 
                 WHERE `article_id` = :article_id 
                 ORDER BY `created_at` DESC';
         $result = $db->query($sql, [':article_id' => $articleId], static::class); // тут преобразуем резульат в объект класса Comment
         return $result ?: [];
-    }
-
-    public static function deleteByArticleId(int $articleId): void
-    {
-        $db = Db::getInstance();
-        $sql = 'DELETE FROM `'.static::getTableName().'` 
-                WHERE `article_id` = :article_id';
-        $db->query($sql, [':article_id' => $articleId]);
     }
 
     protected static function getTableName(): string // здесь мы указываем, с какой таблицей работает модель 

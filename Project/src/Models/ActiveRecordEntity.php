@@ -28,7 +28,7 @@
              return strtolower(preg_replace('/([A-Z])/', '_$1', $source)); // перед большими буквами ставим "_" и делаем слово в нижнем регистре
          }
  
-         private function mapPropertiesToDb(): array // преобразуем свойства в массив для БД через рефлексиюс ReflectionObject
+         private function mapPropertiesToDb(): array // преобразуем свойства в массив для БД через рефлексию с ReflectionObject
          {
              $reflector = new ReflectionObject($this); // создается объект ReflectionObject для текущего объекта
              $properties = $reflector->getProperties(); // получаем все свойства объекта 
@@ -38,14 +38,15 @@
                  $propertyDbName = $this->camelCaseToUnderscore($propertyName); // преобразуем его 
                  $mappedProperties[$propertyDbName]= $this->$propertyName; //складываем все в массив
              }
-             return $mappedProperties;
+             return $mappedProperties; //возвращаем готовый массив для подстанвоки в SQL
          }
 
          public static function findAll(): ?array // получение всех записей
          {
              $db = Db::getInstance();  // подключение к БД
              $sql = 'SELECT * FROM `'.static::getTableName().'`'; // формируем запрос и возвращаем в качестве массива объектов текущего класса
-             return $db->query($sql, [], static::class);
+             return $db->query($sql, [], 
+             static::class); // благодаря этому возвратит объект соответсвующего класса 
          }
      
          public static function getById(int $id): ?static
@@ -56,56 +57,56 @@
              
              $db = Db::getInstance(); // подключение к БД
              $entities = $db->query(
-                 'SELECT * FROM ' . static::getTableName() . ' WHERE id = :id', // формируем запрос
+                 'SELECT * FROM ' . static::getTableName() . ' WHERE id = :id', // формируем запрос, getTableName используется для получения имени таблицы 
                  [':id' => $id], 
-                 static::class // благодаря этому резульат будет преобразовываться в объект 
+                 static::class // благодаря этому возвратит объект соответсвующего класса 
              );
              return $entities[0] ?? null; // возвращаем первый объект из результата
          }
 
-         public function save()
+         public function save() // save определяет, нужно делать insert или update
          {
              if ($this->getId()) $this->update(); //если есть id, то выполняет update
              else $this->insert(); // если нет - insert
          }
      
-         private function update(){
-            $properties = $this->mapPropertiesToDb();
-            $column2Params = [];
-            $param2Value = [];
-            foreach( $properties as $key=>$value){
-                $column = '`'.$key.'`';
-                $param = ':'.$key;
-                $column2Params[] = $column.'='.$param;
-                $param2Value[$param] = $value;
+         private function update(){ // он формирует sql-запрос для обновления записи, этот метод вызывается из метода save, когда есть id
+            $properties = $this->mapPropertiesToDb(); // получение свойств в виде массива для БД
+            $column2Params = []; //будет хранить часть массива "ключ", т е столбец
+            $param2Value = []; // будет хранить значение 
+            foreach( $properties as $key=>$value){ // начинается перебор всех элементов массива $properties
+                $column = '`'.$key.'`'; // столбец в формате `name_column`
+                $param = ':'.$key; // cоздаётся строка с именем параметра
+                $column2Params[] = $column.'='.$param; //  добавление в массив : `abracadabrs`=:abracadabra, те столбец = :паарметр
+                $param2Value[$param] = $value; // добавленние в массив значения параметр: значение
             }
-            $sql = 'UPDATE `'.static::getTableName().'` SET '.implode(',', $column2Params).' WHERE `id`=:id';
-            $db = Db::getInstance();
-            $db->query($sql, $param2Value, static::class);
+            $sql = 'UPDATE `'.static::getTableName().'` SET '.implode(',', $column2Params).' WHERE `id`=:id'; //получение название таблицы из класса-наследника, объединяет все set через запятую, WHERE для обнводения определеннйо записи 
+            $db = Db::getInstance(); // получение подключения к БД
+            $db->query($sql, $param2Value, static::class); // формирование запроса. Передается класс в который нужно будет вернуть результат и значения для запроса 
          }
      
-         private function insert(){
-            $properties = array_filter($this->mapPropertiesToDb());
-            $columns = [];
-            $params = [];
-            $param2Value = [];
-             foreach($properties as $key=>$val){
-                 $columns[] = '`'.$key.'`';
-                 $param = ':'.$key;
-                 $params[] = $param;
-                 $param2Value[$param] = $val;
+         private function insert(){ // он формирует sql-запрос для создания новой записи 
+            $properties = array_filter($this->mapPropertiesToDb()); // преобразует свойства объекта в массив для БД, а array_filter удаляет пустые значения 
+            $columns = []; // для хранения имён столбцов
+            $params = []; // для имён параметров с двоеточием
+            $param2Value = []; // для связки параметра и значения 
+             foreach($properties as $key=>$val){ // начинается цикл по свойствами key(столбец) and val(значение свойства)
+                 $columns[] = '`'.$key.'`'; // делает навание столбца в кавычках 
+                 $param = ':'.$key; // добавляет двоеточие для параметра 
+                 $params[] = $param; // сохранение параметра 
+                 $param2Value[$param] = $val;  // создаёт пару типа параметр => значение
              }
-            $sql = 'INSERT INTO `'.static::getTableName().'`('.implode(',', $columns).') VALUES ('.implode(',', $params).')';
-            $db = Db::getInstance();
-            $db->query($sql, $param2Value, static::class);
+            $sql = 'INSERT INTO `'.static::getTableName().'`('.implode(',', $columns).') VALUES ('.implode(',', $params).')'; //формирование sql-запроса 
+            $db = Db::getInstance(); // получение подключения к БД
+            $db->query($sql, $param2Value, static::class); // формирование запроса. Передается класс в который нужно будет вернуть результат и значения для запроса
          }
          
-         public function delete()
+         public function delete() // формирует sql-запрос, который удаляет запись 
      {
-         $sql = 'DELETE FROM `'.static::getTableName().'` WHERE `id`=:id';
-         $db = Db::getInstance();
-         $db->query($sql, [':id'=>$this->id], static::class);
+         $sql = 'DELETE FROM `'.static::getTableName().'` WHERE `id`=:id'; // формируется запрос, где навание таблицы берется из статического класса-наследника и удаляется по условию с именованным параметром 
+         $db = Db::getInstance(); // получение подключения к БД
+         $db->query($sql, [':id'=>$this->id], static::class); // передает в query запрос, id с именованным параметром и имя текущего класса  
      }
 
-         abstract protected static function getTableName(): string;
+         abstract protected static function getTableName(): string; // абстрактный метод, который реализован в дочерних классах 
      }
