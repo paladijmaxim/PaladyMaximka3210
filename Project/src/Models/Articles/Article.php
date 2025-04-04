@@ -31,7 +31,7 @@ class Article extends ActiveRecordEntity
         if (!$this->author_id) {
             return null; 
         }
-        return User::getById($this->author_id);
+        return User::getById($this->author_id); //тут загружаем объект User через User::getById()
     }
     
    

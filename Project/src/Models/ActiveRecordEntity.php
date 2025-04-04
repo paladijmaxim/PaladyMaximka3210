@@ -7,46 +7,45 @@
  
      abstract class ActiveRecordEntity{
          
-         protected $id;
-         public function getId() {
+         protected $id; // id статьи 
+         public function getId() {  // получеине этого id
              return $this->id;
          }
  
          public function __set($name, $value) // рефлексия, необходимо для сопоставления полей БД со свойствами объекта
          {
-             $camelCaseName = $this->underscoreToCamelcase($name);
-             $this->$camelCaseName = $value;
+             $camelCaseName = $this->underscoreToCamelcase($name); // преобразует имя свойства из snake_case в camelCase
+             $this->$camelCaseName = $value; // тут устанавливаем значение 
          }
      
-         private function underscoreToCamelcase(string $name): string
+         private function underscoreToCamelcase(string $name): string // как раз тут преобразуем имена в нужный нам формат 
          {
-             return lcfirst(str_replace('_','',ucwords($name, '_')));
+             return lcfirst(str_replace('_','',ucwords($name, '_'))); // сначала все симовлы после '_' изменяем в верхний регистр, потом удаляем "_", и первую букву делаем в нижнем регистре 
          }
          
-         private function camelCaseToUnderscore(string $source): string
+         private function camelCaseToUnderscore(string $source): string // а туть обратное преобразование 
          {
-             return strtolower(preg_replace('/([A-Z])/', '_$1', $source));
+             return strtolower(preg_replace('/([A-Z])/', '_$1', $source)); // перед большими буквами ставим "_" и делаем слово в нижнем регистре
          }
  
-         private function mapPropertiesToDb(): array // рефлексия
+         private function mapPropertiesToDb(): array // преобразуем свойства в массив для БД через рефлексиюс ReflectionObject
          {
-             $reflector = new ReflectionObject($this);
-             $properties = $reflector->getProperties();
+             $reflector = new ReflectionObject($this); // создается объект ReflectionObject для текущего объекта
+             $properties = $reflector->getProperties(); // получаем все свойства объекта 
              $mappedProperties = [];
-             foreach($properties as $property){
-                 $propertyName = $property->getName();
-                 $propertyDbName = $this->camelCaseToUnderscore($propertyName);
-                 $mappedProperties[$propertyDbName]= $this->$propertyName;
+             foreach($properties as $property){ // тут начинается перебор всех свойств
+                 $propertyName = $property->getName(); // получаем имя свойства 
+                 $propertyDbName = $this->camelCaseToUnderscore($propertyName); // преобразуем его 
+                 $mappedProperties[$propertyDbName]= $this->$propertyName; //складываем все в массив
              }
              return $mappedProperties;
          }
 
-         public static function findAll(): ?array
+         public static function findAll(): ?array // получение всех записей
          {
-             $db = Db::getInstance();
-             $sql = 'SELECT * FROM `'.static::getTableName().'`';
-             return $db->query($sql, [], 
-             static::class);
+             $db = Db::getInstance();  // подключение к БД
+             $sql = 'SELECT * FROM `'.static::getTableName().'`'; // формируем запрос и возвращаем в качестве массива объектов текущего класса
+             return $db->query($sql, [], static::class);
          }
      
          public static function getById(int $id): ?static
@@ -55,19 +54,19 @@
                  return null;
              }
              
-             $db = Db::getInstance();
+             $db = Db::getInstance(); // подключение к БД
              $entities = $db->query(
-                 'SELECT * FROM ' . static::getTableName() . ' WHERE id = :id',
-                 [':id' => $id],
+                 'SELECT * FROM ' . static::getTableName() . ' WHERE id = :id', // формируем запрос
+                 [':id' => $id], 
                  static::class // благодаря этому резульат будет преобразовываться в объект 
              );
-             return $entities[0] ?? null;
+             return $entities[0] ?? null; // возвращаем первый объект из результата
          }
 
          public function save()
          {
              if ($this->getId()) $this->update(); //если есть id, то выполняет update
-             else $this->insert();
+             else $this->insert(); // если нет - insert
          }
      
          private function update(){
