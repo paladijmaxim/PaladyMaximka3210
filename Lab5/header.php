@@ -11,7 +11,7 @@
 <body>
     <header>
     <div class="text-center mt-5">
-        <a href="/PHP/Lab5/index.php?elem=menu" class="bn <?=($_GET['elem'] ?? 'menu') === 'menu' ? 'active' : ''?>">Главное меню</a>
+        <a href="/PHP/Lab5/index.php?elem=menu" class="bn <?=($_GET['elem'] ?? '') === 'menu' ? 'active' : ''?>">Главное меню</a>
         <a href="/PHP/Lab5/index.php?elem=add" class="bn <?=($_GET['elem'] ?? '') === 'add' ? 'active' : ''?>">Добавить запись</a>
         <a href="/PHP/Lab5/?elem=delete" class="bn <?=($_GET['elem'] ?? '') === 'delete' ? 'active' : ''?>">Удалить запись</a>
     </div>

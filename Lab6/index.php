@@ -37,14 +37,14 @@
 session_start();
 
 
-
+?>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Document</title>
 </head>
 <body>
-    <?php if (!isset($_SESSION['user_country'])): ?>
+    <?php if (!isset($_SESSION['country'])): ?>
         <form method="POST" action="index.php">
             <label for = 'country'>Страна</label>
             <input type = 'text' name = 'country'>

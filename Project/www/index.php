@@ -24,7 +24,7 @@ foreach ($patterns as $pattern => $controllerAndAction) { //перебор ша�
         $controllerClass = $controllerAndAction[0]; 
         $action = $controllerAndAction[1];  
         $controller = new $controllerClass(); // создание объекта 
-        $controller->$action(...$matches); // для show(int $id) бдует передаваться только id, тут вызывается метод
+        $controller->$action(...$matches); // для show(int $id) бдует передаваться только id
         break;
     }
 }
