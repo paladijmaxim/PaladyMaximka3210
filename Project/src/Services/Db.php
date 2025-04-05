@@ -31,7 +31,7 @@ class Db
         return (int)$this->pdo->lastInsertId(); // возвращаем id при полсденем insert
      }
 
-    public static function getInstance(): self // тут реализуем синглтон
+    public static function getInstance(): self // тут реализуем синглтон, будет возвращаться экземпляр текущего класса
     {
         if (self::$instance === null) { //если экземпляров не было до этого, то создаем новый
             self::$instance = new self(); // объект создается и сохраняется 
